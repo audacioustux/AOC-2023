@@ -1,6 +1,9 @@
 {
     "name": "rust-devcontainer",
     "image": "mcr.microsoft.com/devcontainers/rust:latest",
-    "postCreateCommand": "rustc --version",
+    "postCreateCommand": {
+        "cargo-watch": "cargo install cargo-watch",
+        "aoc-cli": "cargo install aoc-cli"
+    },
     "remoteUser": "vscode"
 }
