@@ -6,40 +6,25 @@ pub fn part_one(input: &str) -> Option<u32> {
     input
         .lines()
         .map(|line| {
-            let first = line.chars().find(|c| c.is_digit(10)).unwrap_or_default();
-            let last = line
-                .chars()
-                .rev()
-                .find(|c| c.is_digit(10))
-                .unwrap_or_default();
+            let digits = line.chars().filter(|c| c.is_ascii_digit());
+            let first = digits.clone().next().unwrap_or_default();
+            let last = digits.clone().last().unwrap_or_default();
 
-            let mut digits = String::with_capacity(2);
-            digits.push(first);
-            digits.push(last);
-
-            digits.parse::<u32>().unwrap_or(0)
+            format!("{}{}", first, last).parse().unwrap_or(0)
         })
         .sum::<u32>()
         .into()
 }
 
 pub fn part_two(input: &str) -> Option<u32> {
-    let digits_map = vec![
-        ("one", 1),
-        ("two", 2),
-        ("three", 3),
-        ("four", 4),
-        ("five", 5),
-        ("six", 6),
-        ("seven", 7),
-        ("eight", 8),
-        ("nine", 9),
+    let digits_word = [
+        "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
     ];
     let canonicalized: &str = &input
         .lines()
         .map(|line| {
             let mut line = line.to_string();
-            for (word, digit) in &digits_map {
+            for (word, digit) in digits_word.iter().zip(1..=9) {
                 let replace = format!("{}{}{}", word, digit, word);
                 line = line.replace(word, &replace);
             }
