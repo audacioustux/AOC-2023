@@ -6,10 +6,10 @@ on:
     #     - cron: "51 */6 * * *" # Every 6 hours
     workflow_dispatch:
     workflow_run:
-      workflows: ["Continuous Integration"]
-      branches: ["main"]
-      types:
-        - completed
+        workflows: ["Continuous Integration"]
+        branches: ["main"]
+        types:
+          - completed
 
 jobs:
     update-readme:
