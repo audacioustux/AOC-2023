@@ -37,7 +37,7 @@ fn parse(input: &str) -> (Vec<u64>, Vec<Vec<(u64, u64, u64)>>) {
 fn lowest_location(
     seeds: impl Iterator<Item = u64>,
     maps: Vec<Vec<(u64, u64, u64)>>,
-) -> Option<u32> {
+) -> Option<u64> {
     seeds
         .map(|seed| {
             maps.iter().fold(seed, |source_target, map| {
@@ -52,22 +52,22 @@ fn lowest_location(
                         )
                     })
                     .unwrap_or(source_target)
-            }) as u32
+            }) as u64
         })
         .min()
 }
-pub fn part_one(input: &str) -> Option<u32> {
+pub fn part_one(input: &str) -> Option<u64> {
     let (seeds, maps) = parse(input);
     lowest_location(seeds.into_iter(), maps)
 }
 
-pub fn part_two(input: &str) -> Option<u32> {
+pub fn part_two(input: &str) -> Option<u64> {
     let (seeds, maps) = parse(input);
     let seeds = seeds
         .iter()
         .tuples()
-        .inspect(|(start, end)| println!("seed: {}..={}", start, end))
-        .map(|(start, count)| (*start..(*start + *count)).collect_vec())
+        .inspect(|(start, end)| println!("seed: {}..={}", start, (*start + *end - 1)))
+        .map(|(start, count)| (*start..(*start + *count - 1)).collect_vec())
         .flatten();
 
     lowest_location(seeds, maps)
