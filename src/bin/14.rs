@@ -23,7 +23,7 @@ fn parse(input: &str) -> Vec<Vec<Tile>> {
         .collect()
 }
 
-fn slide_north(grid: &mut Vec<Vec<Tile>>) {
+fn slide_north(grid: &mut [Vec<Tile>]) {
     for col in 0..grid[0].len() {
         let mut empty_or_round_row = 0;
         for row in 0..grid.len() {
