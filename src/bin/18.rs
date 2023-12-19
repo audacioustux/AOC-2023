@@ -57,7 +57,7 @@ fn calc_area(instructions: impl Iterator<Item = Instr>) -> i64 {
 pub fn part_one(input: &str) -> Option<i64> {
     let instructions = input.lines().map(|line| {
         let (instr, _) = line.split_once(" (").unwrap();
-        let (dir, amount) = instr.split_once(" ").unwrap();
+        let (dir, amount) = instr.split_once(' ').unwrap();
         let dir = match dir {
             "U" => Dir::Up,
             "D" => Dir::Down,
@@ -74,7 +74,7 @@ pub fn part_one(input: &str) -> Option<i64> {
 
 pub fn part_two(input: &str) -> Option<i64> {
     let instructions = input.lines().map(|line| {
-        let line = line.strip_suffix(")").unwrap();
+        let line = line.strip_suffix(')').unwrap();
         let (_, hex) = line.split_once("(#").unwrap();
         let (amount, dir) = hex.split_at(5);
         let amount = i64::from_str_radix(amount, 16).unwrap();

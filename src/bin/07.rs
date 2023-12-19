@@ -5,7 +5,7 @@ advent_of_code::solution!(7);
 pub fn part_one(input: &str) -> Option<usize> {
     input
         .lines()
-        .map(|line| line.split_once(" ").unwrap())
+        .map(|line| line.split_once(' ').unwrap())
         .sorted_by(|(a, _), (b, _)| {
             let card_value = |c: char| "23456789TJQKA".chars().position(|card| card == c).unwrap();
             let hand_score = |hand: &str| {
@@ -32,7 +32,7 @@ pub fn part_one(input: &str) -> Option<usize> {
 pub fn part_two(input: &str) -> Option<usize> {
     input
         .lines()
-        .map(|line| line.split_once(" ").unwrap())
+        .map(|line| line.split_once(' ').unwrap())
         .sorted_by(|(a, _), (b, _)| {
             let card_value = |c: char| "J23456789TQKA".chars().position(|card| card == c).unwrap();
             let hand_score = |hand: &str| {

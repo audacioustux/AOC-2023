@@ -2,7 +2,8 @@ use itertools::Itertools;
 
 advent_of_code::solution!(5);
 
-fn parse(input: &str) -> (Vec<u64>, Vec<Vec<(u64, u64, u64)>>) {
+type Parsed = (Vec<u64>, Vec<Vec<(u64, u64, u64)>>);
+fn parse(input: &str) -> Parsed {
     let mut input = input.lines();
     let seeds = {
         let input = input.next().unwrap();
@@ -10,7 +11,7 @@ fn parse(input: &str) -> (Vec<u64>, Vec<Vec<(u64, u64, u64)>>) {
             .split_once("seeds: ")
             .unwrap()
             .1
-            .split(" ")
+            .split(' ')
             .map(|s| s.parse::<u64>().unwrap())
             .collect_vec()
     };
@@ -22,7 +23,7 @@ fn parse(input: &str) -> (Vec<u64>, Vec<Vec<(u64, u64, u64)>>) {
         .map(|cat| {
             cat.skip(1)
                 .map(|maps| {
-                    maps.splitn(3, " ")
+                    maps.splitn(3, ' ')
                         .map(|s| s.parse::<u64>().unwrap())
                         .collect_tuple::<(_, _, _)>()
                         .unwrap()
@@ -52,7 +53,7 @@ fn lowest_location(
                         )
                     })
                     .unwrap_or(source_target)
-            }) as u64
+            })
         })
         .min()
 }
@@ -67,8 +68,7 @@ pub fn part_two(input: &str) -> Option<u64> {
         .iter()
         .tuples()
         .inspect(|(start, end)| println!("seed: {}..={}", start, (*start + *end - 1)))
-        .map(|(start, count)| (*start..(*start + *count - 1)).collect_vec())
-        .flatten();
+        .flat_map(|(start, count)| (*start..(*start + *count - 1)).collect_vec());
 
     lowest_location(seeds, maps)
 }

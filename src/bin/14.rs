@@ -42,7 +42,7 @@ fn slide_north(grid: &mut Vec<Vec<Tile>>) {
     }
 }
 
-fn weight(grid: &Vec<Vec<Tile>>) -> usize {
+fn weight(grid: &[Vec<Tile>]) -> usize {
     grid.iter()
         .rev()
         .enumerate()
@@ -57,10 +57,8 @@ fn weight(grid: &Vec<Vec<Tile>>) -> usize {
 fn clockwise(grid: &Vec<Vec<Tile>>) -> Vec<Vec<Tile>> {
     let size = grid.len();
     let mut rotated = vec![vec![Tile::Empty; size]; size];
-    for row in 0..size {
-        for col in 0..size {
-            rotated[col][size - 1 - row] = grid[row][col];
-        }
+    for (row, col) in (0..size).flat_map(|row| (0..size).map(move |col| (row, col))) {
+        rotated[col][size - 1 - row] = grid[row][col];
     }
     rotated
 }

@@ -61,8 +61,8 @@ fn empty_cols(grid: &[Vec<Tile>]) -> Vec<usize> {
 }
 
 fn galaxy_coordinates(grid: &[Vec<Tile>], expansion: usize) -> Vec<Coord> {
-    let empty_rows = empty_rows(&grid);
-    let empty_cols = empty_cols(&grid);
+    let empty_rows = empty_rows(grid);
+    let empty_cols = empty_cols(grid);
 
     let mut galaxies = Vec::new();
     let mut curr_row = 0;

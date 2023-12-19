@@ -24,9 +24,9 @@ pub fn part_one(input: &str) -> Option<u32> {
         .map(|line| {
             let (source, destinations) = line.split_once(" = ").unwrap();
             let destinations = destinations
-                .strip_prefix("(")
+                .strip_prefix('(')
                 .unwrap()
-                .strip_suffix(")")
+                .strip_suffix(')')
                 .unwrap();
             let destinations = destinations.split_once(", ").unwrap();
             (
@@ -88,9 +88,9 @@ pub fn part_two(input: &str) -> Option<u64> {
         .map(|line| {
             let (source, destinations) = line.split_once(" = ").unwrap();
             let destinations = destinations
-                .strip_prefix("(")
+                .strip_prefix('(')
                 .unwrap()
-                .strip_suffix(")")
+                .strip_suffix(')')
                 .unwrap();
             let destinations = destinations.split_once(", ").unwrap();
             (
@@ -138,7 +138,7 @@ pub fn part_two(input: &str) -> Option<u64> {
     let min_shared_cycles = ghosts
         .into_iter()
         .filter_map(|ghost| ghost.cycles)
-        .fold(1, |acc, item| lcm(acc, item));
+        .fold(1, lcm);
 
     Some(min_shared_cycles * instructions.len() as u64)
 }
