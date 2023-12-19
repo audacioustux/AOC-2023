@@ -32,7 +32,7 @@ pub fn part_two(input: &str) -> Option<u32> {
         })
         .join("\n");
 
-    part_one(&canonicalized)
+    part_one(canonicalized)
 }
 
 #[cfg(test)]

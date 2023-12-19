@@ -44,7 +44,19 @@ pub fn part_two(input: &str) -> Option<u32> {
         .sum1()
 }
 
-fn nom_card(input: &str) -> IResult<&str, (&str, &str, u32, &str, &str, (Vec<u32>, Vec<u32>))> {
+type NomCardResult<'a> = IResult<
+    &'a str,
+    (
+        &'a str,
+        &'a str,
+        u32,
+        &'a str,
+        &'a str,
+        (Vec<u32>, Vec<u32>),
+    ),
+>;
+
+fn nom_card(input: &str) -> NomCardResult<'_> {
     tuple((
         tag("Card "),
         multispace0,

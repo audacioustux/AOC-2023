@@ -46,7 +46,9 @@ pub fn part_two(input: &str) -> Option<u32> {
     Some(res)
 }
 
-fn nom_game_record(input: &str) -> IResult<&str, (&str, u32, &str, Vec<Vec<(u32, &str, &str)>>)> {
+type NomGameRecordResult<'a> =
+    IResult<&'a str, (&'a str, u32, &'a str, Vec<Vec<(u32, &'a str, &'a str)>>)>;
+fn nom_game_record(input: &str) -> NomGameRecordResult<'_> {
     tuple((
         tag("Game "),
         map_res(digit1, u32::from_str),

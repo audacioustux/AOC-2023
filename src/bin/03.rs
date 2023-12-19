@@ -39,18 +39,17 @@ fn gear_parts_map<P>(l1: P, l2: P, l3: P, symbols: &BTreeSet<usize>) -> HashMap<
 where
     P: IntoIterator<Item = (usize, RangeInclusive<usize>)>,
 {
-    let parts = l1
-        .into_iter()
-        .chain(l2.into_iter())
-        .chain(l3.into_iter())
-        .fold(HashMap::new(), |mut acc, (number, range)| {
+    let parts = l1.into_iter().chain(l2).chain(l3).fold(
+        HashMap::<_, Vec<_>>::new(),
+        |mut acc, (number, range)| {
             let range = range.start().saturating_sub(1)..=range.end().saturating_add(1);
             let symbols = symbols.range(range);
             for symbol in symbols {
-                acc.entry(symbol).or_insert_with(Vec::new).push(number);
+                acc.entry(symbol).or_default().push(number);
             }
             acc
-        });
+        },
+    );
 
     parts
 }
