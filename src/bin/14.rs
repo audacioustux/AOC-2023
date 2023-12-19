@@ -31,7 +31,6 @@ fn slide_north(grid: &mut Vec<Vec<Tile>>) {
             match curr {
                 Tile::Square => empty_or_round_row = row + 1,
                 Tile::Round => {
-                    // swap the current tile with the empty_or_round one
                     let replace_with = std::mem::replace(&mut grid[empty_or_round_row][col], curr);
                     let _ = std::mem::replace(&mut grid[row][col], replace_with);
                     empty_or_round_row += 1;
@@ -53,8 +52,7 @@ fn weight(grid: &[Vec<Tile>]) -> usize {
         .sum()
 }
 
-// rotate 90 degrees clockwise: (x, y) -> (y, -x)
-fn clockwise(grid: &Vec<Vec<Tile>>) -> Vec<Vec<Tile>> {
+fn clockwise(grid: &[Vec<Tile>]) -> Vec<Vec<Tile>> {
     let size = grid.len();
     let mut rotated = vec![vec![Tile::Empty; size]; size];
     for (row, col) in (0..size).flat_map(|row| (0..size).map(move |col| (row, col))) {
@@ -84,11 +82,8 @@ pub fn part_two(input: &str) -> Option<usize> {
 
     let res = loop {
         grid = cycle(grid);
-        // check if the cycled map has already been seen
         if let Some(idx) = seen.iter().position(|x| x == &grid) {
-            // figure out length of cycle (watch out: a cycle might only start after a number of steps)
             let cycle_len = seen.len() - idx;
-            // use cycle length to figure out the index of the final step in the seen list
             let final_idx = idx + (1_000_000_000 - idx) % cycle_len;
             break weight(&seen[final_idx]);
         }

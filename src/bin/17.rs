@@ -63,21 +63,12 @@ struct Crucible {
     moves_in_dir: u8,
 }
 
-// The priority queue holds Nodes
-// We define an ordering trait so the one with the lowest cost gets popped from the pq first.
-// We do this by flipping the ordering on cost (comparing "other to self" instead of "self to other")
-// that way, nodes with a lower cost will compare as Ordering::Greater, and get sent to the front of the pq
 impl Ord for Crucible {
     fn cmp(&self, other: &Self) -> Ordering {
         other.cost.cmp(&self.cost)
     }
 }
 
-// Ensure partialOrd is consistent with Ord. If you #[derive(PartialOrd)] this it might not be the same as that implementation uses a top-down ordering on the Node struct fields
-// in this case, it would order by idx first (as that field occurs first in the source code where Node is defined) and would not be consistent.
-// From the docs:
-// > If Ord is also implemented for Self and Rhs, it must also be consistent with partial_cmp (see the documentation of that trait for the exact requirements).
-// > It’s easy to accidentally make them disagree by deriving some of the traits and manually implementing others.
 impl PartialOrd for Crucible {
     fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
         Some(self.cmp(other))
@@ -85,7 +76,7 @@ impl PartialOrd for Crucible {
 }
 
 impl Crucible {
-    fn successors(&self, grid: &Vec<Vec<u8>>) -> Vec<Self> {
+    fn successors(&self, grid: &[Vec<u8>]) -> Vec<Self> {
         let rows = grid.len();
         let cols = grid[0].len();
 
@@ -97,20 +88,14 @@ impl Crucible {
             Direction::Right,
         ] {
             if self.dir == dir && self.moves_in_dir == 3 {
-                // already moved 3 tiles in a straight line, can't move further
                 continue;
             }
             if self.dir.opposite() == dir {
-                // can't move in opposite direction
                 continue;
             }
-            // simulate a move inside the bounds
             if let Some(pos) = self.pos.forward(&dir, rows, cols) {
-                // calculate the total cost to get to that neighbour
-                // it's the total cost to get to the current node + the cost to travel to the neighbour
                 let cost = self.cost + grid[pos.row][pos.col] as u32;
 
-                // increment straight_moves if we went straight, else we moved 1 tile in the current direction
                 let moves_in_dir = if self.dir == dir {
                     self.moves_in_dir + 1
                 } else {
@@ -202,7 +187,7 @@ impl PartialOrd for UltraCrucible {
 }
 
 impl UltraCrucible {
-    fn successors(&self, grid: &Vec<Vec<u8>>) -> Vec<Self> {
+    fn successors(&self, grid: &[Vec<u8>]) -> Vec<Self> {
         let rows = grid.len();
         let cols = grid[0].len();
 
@@ -213,26 +198,18 @@ impl UltraCrucible {
             Direction::Left,
             Direction::Right,
         ] {
-            // Once an ultra crucible starts moving in a direction, it needs to move a minimum of four blocks in that direction before it can turn
             if self.moves_in_dir < 4 && dir != self.dir {
                 continue;
             }
-            // an ultra crucible can move a maximum of ten consecutive blocks without turning.
             if self.dir == dir && self.moves_in_dir == 10 {
-                // already moved 3 tiles in a straight line, can't move further
                 continue;
             }
             if self.dir.opposite() == dir {
-                // can't move in opposite direction
                 continue;
             }
-            // simulate a move inside the bounds
             if let Some(pos) = self.pos.forward(&dir, rows, cols) {
-                // calculate the total cost to get to that neighbour
-                // it's the total cost to get to the current node + the cost to travel to the neighbour
                 let cost = self.cost + grid[pos.row][pos.col] as u32;
 
-                // increment straight_moves if we went straight, else we moved 1 tile in the current direction
                 let moves_in_dir = if self.dir == dir {
                     self.moves_in_dir + 1
                 } else {

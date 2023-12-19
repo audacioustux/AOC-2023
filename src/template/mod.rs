@@ -1,5 +1,6 @@
-use crate::Day;
 use std::{env, fs};
+
+use crate::Day;
 
 pub mod aoc_cli;
 pub mod commands;

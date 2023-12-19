@@ -46,10 +46,8 @@ pub fn part_two(input: &str) -> Option<usize> {
                 let hash = hash(lens.label);
                 let lenses = &mut boxes[hash as usize];
                 if let Some(old) = lenses.iter_mut().find(|item| lens.label == item.label) {
-                    // update focal length of lens with this label
                     old.focal = lens.focal;
                 } else {
-                    // add lens to end of box
                     lenses.push(lens);
                 }
             }

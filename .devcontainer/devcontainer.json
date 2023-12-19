@@ -1,6 +1,23 @@
 {
-    "name": "rust-devcontainer",
-    "image": "mcr.microsoft.com/devcontainers/rust:latest",
+    "name": "aoc-devcontainer",
+    "image": "mcr.microsoft.com/devcontainers/base:ubuntu-22.04",
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "installZsh": true,
+            "configureZshAsDefaultShell": true,
+            "installOhMyZsh": true,
+            "installOhMyZshConfig": true,
+            "upgradePackages": true,
+            "username": "vscode",
+            "userUid": "automatic",
+            "userGid": "automatic"
+        },
+        "ghcr.io/devcontainers/features/rust:1": {
+            "profile": "default"
+        },
+        "ghcr.io/audacioustux/devcontainers/common-utils-extras:1": {},
+        "ghcr.io/audacioustux/devcontainers/taskfile:1": {}
+    },
     "postCreateCommand": {
         "cargo-watch": "cargo install cargo-watch",
         "aoc-cli": "cargo install aoc-cli"

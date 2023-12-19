@@ -33,7 +33,6 @@ pub fn part_one(input: &str) -> Option<u64> {
 }
 
 fn count_possible_arangements(mut springs: Vec<Spring>, counts: Vec<usize>) -> u64 {
-    // to make the Damaged recursion case simpler
     springs.push(Spring::Operational);
     let mut cache = vec![vec![None; springs.len()]; counts.len()];
     count_possible_arangements_inner(&springs, &counts, &mut cache)
@@ -46,15 +45,12 @@ fn count_possible_arangements_inner(
 ) -> u64 {
     if counts.is_empty() {
         return if springs.contains(&Spring::Damaged) {
-            // Too many previous unknowns were counted as damaged
             0
         } else {
-            // All remaining unknowns are operational
             1
         };
     }
     if springs.len() < counts.iter().sum::<usize>() + counts.len() {
-        // Not enough space for remaining numbers
         return 0;
     }
     if let Some(cached) = cache[counts.len() - 1][springs.len() - 1] {
@@ -62,14 +58,12 @@ fn count_possible_arangements_inner(
     }
     let mut arangements = 0;
     if springs[0] != Spring::Damaged {
-        // Assume operational
         arangements += count_possible_arangements_inner(&springs[1..], counts, cache);
     }
     let next_group_size = counts[0];
     if !springs[..next_group_size].contains(&Spring::Operational)
         && springs[next_group_size] != Spring::Damaged
     {
-        // Assume damaged
         arangements +=
             count_possible_arangements_inner(&springs[next_group_size + 1..], &counts[1..], cache);
     }

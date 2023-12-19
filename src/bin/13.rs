@@ -1,5 +1,6 @@
-use itertools::Itertools;
 use std::collections::VecDeque;
+
+use itertools::Itertools;
 
 advent_of_code::solution!(13);
 
@@ -9,7 +10,6 @@ enum Tile {
     Rock,
 }
 
-// parse input to a list of 2D grids
 fn parse(input: &str) -> Vec<VecDeque<Vec<Tile>>> {
     input
         .split("\n\n")
@@ -47,12 +47,9 @@ pub fn part_one(input: &str) -> Option<usize> {
     let grid = parse(input);
     grid.iter()
         .map(|grid| {
-            // check horizontal
             if let Some(i) = reflects_at(grid, 0) {
                 return i * 100;
             }
-
-            // check vertical
             let cols = (0..grid[0].len())
                 .map(|i| grid.iter().map(|row| row[i]).collect())
                 .collect();
@@ -60,7 +57,6 @@ pub fn part_one(input: &str) -> Option<usize> {
                 return i;
             }
 
-            // no reflection found
             0
         })
         .sum1()
@@ -70,12 +66,10 @@ pub fn part_two(input: &str) -> Option<usize> {
     let grid = parse(input);
     grid.iter()
         .map(|grid| {
-            // check horizontal
             if let Some(i) = reflects_at(grid, 1) {
                 return i * 100;
             }
 
-            // check vertical
             let cols = (0..grid[0].len())
                 .map(|i| grid.iter().map(|row| row[i]).collect())
                 .collect();
@@ -83,7 +77,6 @@ pub fn part_two(input: &str) -> Option<usize> {
                 return i;
             }
 
-            // no reflection found
             0
         })
         .sum1()

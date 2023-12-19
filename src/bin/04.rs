@@ -1,3 +1,5 @@
+use std::{collections::HashSet, str::FromStr};
+
 use itertools::Itertools;
 use nom::{
     bytes::complete::tag,
@@ -7,7 +9,6 @@ use nom::{
     sequence::{separated_pair, tuple},
     IResult,
 };
-use std::{collections::HashSet, str::FromStr};
 
 advent_of_code::solution!(4);
 
